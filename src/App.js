@@ -12,7 +12,19 @@ import ShoppingCart from './components/ShoppingCart';
 
 function App() {
   const [products] = useState(data);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(()=>{
+	  const item = window.localStorage.getItem('Cart Data');
+	  return item ? JSON.parse(item) : [];
+  });
+
+  if(cart.length >0){
+	window.localStorage.setItem('Cart Data', JSON.stringify(cart));
+  }
+
+  if(cart.length === 0){
+	  window.localStorage.removeItem('Cart Data');
+  }
+  
 
   const addItem = (item) => {
     setCart([...cart, item]);
